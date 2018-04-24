@@ -1,0 +1,1 @@
+ dotnet pack -o ../output -c Release
