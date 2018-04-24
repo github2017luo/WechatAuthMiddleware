@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WechatMiddleware", "WechatMiddleware\WechatMiddleware.csproj", "{D5BC42A2-E823-494C-87A9-4F934891F22E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WechatMiddleware.Demo", "AuthCodeMiddleware\WechatMiddleware.Demo.csproj", "{0636BF08-DB40-45B0-956D-ABF21AF180F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WechatMiddleware.Demo", "WechatMiddleware.Demo\WechatMiddleware.Demo.csproj", "{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,18 +29,18 @@ Global
 		{D5BC42A2-E823-494C-87A9-4F934891F22E}.Release|x64.Build.0 = Release|Any CPU
 		{D5BC42A2-E823-494C-87A9-4F934891F22E}.Release|x86.ActiveCfg = Release|Any CPU
 		{D5BC42A2-E823-494C-87A9-4F934891F22E}.Release|x86.Build.0 = Release|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Debug|x64.Build.0 = Debug|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Debug|x86.Build.0 = Debug|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Release|x64.ActiveCfg = Release|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Release|x64.Build.0 = Release|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Release|x86.ActiveCfg = Release|Any CPU
-		{0636BF08-DB40-45B0-956D-ABF21AF180F9}.Release|x86.Build.0 = Release|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Debug|x64.Build.0 = Debug|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Debug|x86.Build.0 = Debug|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Release|x64.ActiveCfg = Release|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Release|x64.Build.0 = Release|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Release|x86.ActiveCfg = Release|Any CPU
+		{9444D0DD-9C0B-44D1-9D9A-1485EBDED60F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
