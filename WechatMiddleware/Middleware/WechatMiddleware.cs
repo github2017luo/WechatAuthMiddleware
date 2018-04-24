@@ -48,7 +48,7 @@ namespace WechatOAuth2Middleware
                 var returnKey = MD5(returnUrl);
                 _cache.Set(returnKey, returnUrl, TimeSpan.FromMinutes(3));
 
-                var redirect_url = $"{context.Request.Scheme}://{context.Request.Host}/wechat/callback/{returnKey}";
+                var redirect_url = $"{context.Request.Scheme}://{context.Request.Host}/wechat/callback/{appId}/{returnKey}";
                 redirect_url = HttpUtility.UrlEncode(redirect_url);
 
                 var redirect = $"https://open.weixin.qq.com/connect/oauth2/authorize" +
@@ -60,8 +60,10 @@ namespace WechatOAuth2Middleware
             {
                 var state = context.Request.Query["state"].FirstOrDefault();
                 var code = context.Request.Query["code"].FirstOrDefault();
-
-                var returnKey = context.Request.Path.Value.Replace("/wechat/callback", "");
+ 
+                var appId = context.Request.Path.Value.Replace("/wechat/callback/", "").Split('/')[0];
+                var returnKey = context.Request.Path.Value.Replace("/wechat/callback/", "").Split('/')[1];
+        
                 var returnUrl = _cache.Get<string>(returnKey);
                 var codeKey = MD5(returnUrl + code + state);
                 var codeValue = _cache.Get<string>(codeKey);
@@ -74,7 +76,7 @@ namespace WechatOAuth2Middleware
                 string access_token = string.Empty;
                 try
                 {
-                    access_token = _tokenService.GetUserToken(code, state);
+                    access_token = _tokenService.GetUserToken(code, state, appId);
                     if (string.IsNullOrWhiteSpace(access_token))
                     {
                         var resp = new
