@@ -17,8 +17,8 @@ namespace WechatOAuth2Middleware
     {
         private readonly RequestDelegate _next;
         private readonly IMemoryCache _cache = null;
-
         private readonly IWechatAccessTokenService _tokenService = null;
+
         public WechatMiddleware(RequestDelegate next, IMemoryCache cache, IWechatAccessTokenService tokenService)
         {
             _next = next;
@@ -36,7 +36,6 @@ namespace WechatOAuth2Middleware
             byte[] output = md5.ComputeHash(result);
             return BitConverter.ToString(output).Replace("-", "");
         }
-
         public async Task InvokeAsync(HttpContext context)
         {
             if (context.Request.Path == "/wechat/code")
@@ -54,25 +53,37 @@ namespace WechatOAuth2Middleware
                 var redirect = $"https://open.weixin.qq.com/connect/oauth2/authorize" +
                $"?appid={appId}&redirect_uri={redirect_url}&response_type=code&scope=snsapi_base&state={userIdentity}";
                 context.Response.Redirect(redirect);
+                return;
 
             }
             if (context.Request.Path.Value.Contains("/wechat/callback"))
             {
                 var state = context.Request.Query["state"].FirstOrDefault();
                 var code = context.Request.Query["code"].FirstOrDefault();
- 
                 var appId = context.Request.Path.Value.Replace("/wechat/callback/", "").Split('/')[0];
                 var returnKey = context.Request.Path.Value.Replace("/wechat/callback/", "").Split('/')[1];
-        
+
                 var returnUrl = _cache.Get<string>(returnKey);
+                if (string.IsNullOrWhiteSpace(returnUrl) || string.IsNullOrWhiteSpace(state)|| string.IsNullOrWhiteSpace(code))
+                {
+                    
+                    var resp = new
+                    {
+                        Code = 0,
+                        Message =
+                        $"失败;state:{state ?? string.Empty};returnUrl:{returnUrl??string.Empty};code:{code??string.Empty};" +
+                        $"returnKey:{returnKey??string.Empty};appId:{appId??string.Empty}"
+                    };
+                    await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(resp),Encoding.UTF8);
+                    return;
+                }
                 var codeKey = MD5(returnUrl + code + state);
                 var codeValue = _cache.Get<string>(codeKey);
-
                 if (!string.IsNullOrWhiteSpace(codeValue))
                 {
                     context.Response.Redirect(codeValue);
+                    return;
                 }
-
                 string access_token = string.Empty;
                 try
                 {
@@ -84,11 +95,11 @@ namespace WechatOAuth2Middleware
                             Code = 0,
                             Message = "获取access_token失败"
                         };
-                        await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(resp));
+                        await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(resp), Encoding.UTF8);
+                        return;
                     }
                     else
                     {
-
                         if (returnUrl.Contains('?'))
                         {
                             returnUrl = returnUrl + "&token=" + access_token;
@@ -98,7 +109,6 @@ namespace WechatOAuth2Middleware
                             returnUrl = returnUrl + "?token=" + access_token;
                         }
                         _cache.Set(codeKey, returnUrl, TimeSpan.FromHours(3));
-
                         context.Response.Redirect(returnUrl);
                     }
                 }
@@ -106,7 +116,27 @@ namespace WechatOAuth2Middleware
                 {
                     throw ex;
                 }
+                return;
             }
+
+            //if (context.Request.Path.Value.Contains("/setcache"))
+            //{
+            //    var value = DateTime.Now.ToLongTimeString();
+            //    _cache.Set<string>("time", value);
+            //    await context.Response.WriteAsync(value);
+            //    return;
+            //}
+            //if (context.Request.Path.Value.Contains("/getcache"))
+            //{
+            //    var value = _cache.Get<string>("time");
+            //    await context.Response.WriteAsync(value);
+            //    return;
+            //}
+            //if (context.Request.Path.Value.Contains("/redirect"))
+            //{
+            //    context.Response.Redirect("http://www.baidu.com");
+            //    return;
+            //}
             await _next(context);
         }
     }
